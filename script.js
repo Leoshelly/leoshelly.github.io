@@ -1,19 +1,22 @@
-/* ===============================
-   script.js — Formspree + Dark Mode
-   =============================== */
+/* ==========================================
+   script.js — Final (Dark Mode + Formspree + No-JS fix)
+   ========================================== */
 (function () {
   'use strict';
+
+  // Remove no-JS fallback as soon as script runs
+  document.documentElement.classList.remove('no-js');
 
   const qs  = (sel, root = document) => root.querySelector(sel);
   const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const debounce = (fn, wait = 100) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); }; };
 
-  // Theme (Dark/Light)
+  /* ---------- Theme (Dark/Light) ---------- */
   function initTheme() {
-    const btn = qs('#theme-toggle');
+    const btn  = qs('#theme-toggle');
     const root = document.documentElement;
 
-    // Preferred theme: localStorage > system
+    // saved > system
     const saved = localStorage.getItem('theme');
     if (saved === 'dark' || saved === 'light') {
       root.setAttribute('data-theme', saved);
@@ -22,26 +25,27 @@
       root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
     }
 
-    updateThemeIcon();
+    updateIcon();
+
     btn?.addEventListener('click', () => {
-      const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      root.setAttribute('data-theme', current);
-      localStorage.setItem('theme', current);
-      updateThemeIcon();
+      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcon();
     });
 
-    function updateThemeIcon(){
+    function updateIcon() {
       const isDark = root.getAttribute('data-theme') === 'dark';
       const icon = qs('#theme-toggle i');
       if (!icon) return;
       icon.classList.remove('fa-moon','fa-sun');
       icon.classList.add(isDark ? 'fa-sun' : 'fa-moon');
-      qs('#theme-toggle')?.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-      qs('#theme-toggle')?.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      btn?.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      btn?.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
     }
   }
 
-  // Navigation / Smooth scroll / Active link / Hide-on-scroll
+  /* ---------- Navigation / Smooth scroll / Active link / Hide-on-scroll ---------- */
   function initNavigation() {
     const hamburger = qs('#hamburger') || qs('.hamburger');
     const navMenu   = qs('#nav-menu') || qs('.nav-menu');
@@ -112,7 +116,7 @@
     }
   }
 
-  // Reveal animations
+  /* ---------- Reveal animations ---------- */
   function initRevealAnimations() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -129,7 +133,7 @@
     qsa('.fade-in, .slide-in-left, .slide-in-right').forEach(el => observer.observe(el));
   }
 
-  // Hero typing effect
+  /* ---------- Typing effect ---------- */
   function initTypewriter() {
     const el = qs('.hero-title');
     if (!el) return;
@@ -137,19 +141,16 @@
     const textOnly     = el.textContent;
     el.innerHTML = '';
     let i = 0; const speed = 50;
-
     const type = () => {
       if (i < textOnly.length) {
         el.innerHTML += textOnly.charAt(i++);
         setTimeout(type, speed);
-      } else {
-        el.innerHTML = originalHTML; // restore gradient span
-      }
+      } else { el.innerHTML = originalHTML; }
     };
     setTimeout(type, 600);
   }
 
-  // Contact form (Formspree AJAX)
+  /* ---------- Contact form (Formspree) ---------- */
   function initContactForm() {
     const form = qs('#contactForm');
     if (!form) return;
@@ -160,12 +161,11 @@
 
       try {
         const data = new FormData(form);
-        const resp = await fetch(form.getAttribute('action'), {
+        const resp = await fetch(form.getAttribute('action') || 'https://formspree.io/f/xeozbvjv', {
           method: 'POST',
           headers: { 'Accept': 'application/json' },
           body: data
         });
-
         if (resp.ok) {
           showNotification("Message sent successfully! I'll get back to you soon.", 'success');
           form.reset();
@@ -182,7 +182,7 @@
     });
   }
 
-  // Toast notifications
+  /* ---------- Toast notifications ---------- */
   function showNotification(message, type = 'info') {
     const n = document.createElement('div');
     n.className = `notification notification-${type}`;
@@ -204,7 +204,7 @@
   }
   function removeNotification(n){ n.style.transform='translateX(100%)'; setTimeout(()=> n.remove(), 300); }
 
-  // Counters (single system with bounce)
+  /* ---------- Counters ---------- */
   function initCounters() {
     const counters = qsa('.stat-number');
     if (!counters.length) return;
@@ -227,8 +227,7 @@
     let current = 0, steps = 50, inc = target / steps;
     const tick = () => {
       if (current < target) {
-        current += inc;
-        el.textContent = `${Math.floor(current)}${suffix}`;
+        current += inc; el.textContent = `${Math.floor(current)}${suffix}`;
         el.style.transform = 'scale(1.2)'; setTimeout(()=> el.style.transform='scale(1)', 100);
         requestAnimationFrame(tick);
       } else {
@@ -239,7 +238,7 @@
     tick();
   }
 
-  // Visual flair
+  /* ---------- Visual flair ---------- */
   function initParallaxMouse(){
     const hero = qs('.hero'); const g = qs('.hero-graphic', hero);
     if (!hero || !g) return;
@@ -283,7 +282,7 @@
       item.addEventListener('animationend', () => item.style.animation = ''; });
   }
 
-  // Init
+  /* ---------- Init ---------- */
   document.addEventListener('DOMContentLoaded', () => {
     initTheme();
     initNavigation();

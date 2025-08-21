@@ -1,5 +1,5 @@
 /* ==========================================
-   script.js — Mobile Toggle + Dark Mode + Formspree + No-JS
+   script.js — (fix3) Remove tilt/parallax/magnetic, faster mobile toggle
    ========================================== */
 (function () {
   'use strict';
@@ -33,15 +33,12 @@
     applyTheme(initial);
     updateIcon(initial);
 
-    // Bind for mobile & desktop
-    ['click','touchend'].forEach(evt => {
-      toggle.addEventListener(evt, (e) => {
-        if (evt === 'touchend') e.preventDefault();
-        const next = (root.getAttribute('data-theme') === 'dark' || document.body.classList.contains('dark')) ? 'light' : 'dark';
-        applyTheme(next);
-        updateIcon(next);
-        try { localStorage.setItem('theme', next); } catch(_) {}
-      }, { passive: true });
+    // Use fast 'click' only; CSS 'touch-action:manipulation' removes delay
+    toggle.addEventListener('click', () => {
+      const next = (root.getAttribute('data-theme') === 'dark' || document.body.classList.contains('dark')) ? 'light' : 'dark';
+      applyTheme(next);
+      updateIcon(next);
+      try { localStorage.setItem('theme', next); } catch(_) {}
     });
 
     function applyTheme(mode){
@@ -49,7 +46,6 @@
       root.setAttribute('data-theme', mode);
       document.body.classList.toggle('dark', mode === 'dark');
     }
-
     function updateIcon(mode){
       const icon = toggle.querySelector('i');
       if (icon) {
@@ -77,14 +73,11 @@
         hamburger.setAttribute('aria-expanded', 'false');
       };
 
-      ['click','touchend'].forEach(evt => {
-        hamburger.addEventListener(evt, (e) => {
-          if (evt === 'touchend') e.preventDefault();
-          const isActive = navMenu.classList.toggle('active');
-          hamburger.classList.toggle('active', isActive);
-          document.body.classList.toggle('menu-open', isActive);
-          hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-        }, { passive: true });
+      hamburger.addEventListener('click', () => {
+        const isActive = navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active', isActive);
+        document.body.classList.toggle('menu-open', isActive);
+        hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
       });
 
       qsa('.nav-link', navMenu).forEach(link => link.addEventListener('click', closeMenu));
@@ -260,55 +253,6 @@
     tick();
   }
 
-  /* ---------- Visual flair ---------- */
-  function initParallaxMouse(){
-    const hero = qs('.hero'); const g = qs('.hero-graphic', hero);
-    if (!hero || !g) return;
-    hero.addEventListener('mousemove', (e) => {
-      const r = hero.getBoundingClientRect();
-      const mx = ((e.clientX - r.left) - r.width/2) / 50;
-      const my = ((e.clientY - r.top)  - r.height/2) / 50;
-      g.style.transform = `translate(${mx}px, ${my}px)`;
-    });
-  }
-  function init3DTilt(){
-    qsa('.timeline-content, .skill-category, .education-item, .about-contact, .contact-form').forEach(el => {
-      el.addEventListener('mousemove', (e)=> handleTilt(e, el));
-      el.addEventListener('mouseleave', ()=> resetTilt(el));
-    });
-  }
-  function handleTilt(e, el){
-    const r = el.getBoundingClientRect();
-    const x = e.clientX - r.left, y = e.clientY - r.top;
-    const cx = r.width/2, cy = r.height/2;
-    const rx = (y - cy)/10, ry = (cx - x)/10;
-    el.style.transform = `translateY(-10px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.02)`;
-  }
-  function resetTilt(el){ el.style.transform = 'translateY(0) rotateX(0) rotateY(0) scale(1)'; }
-
-  function initMagneticButtons(){
-    qsa('.btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const r = btn.getBoundingClientRect();
-        const x = e.clientX - r.left - r.width/2;
-        const y = e.clientY - r.top  - r.height/2;
-        btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
-      });
-      btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0,0) scale(1)');
-    });
-  }
-
-  function initSkillWave(){
-    qsa('.skill-item').forEach((item, idx) => {
-      item.addEventListener('mouseenter', () => {
-        item.style.animation = `skillWave .6s ease ${idx * 50}ms`;
-      });
-      item.addEventListener('animationend', () => {
-        item.style.animation = '';
-      });
-    });
-  }
-
   /* ---------- Init ---------- */
   document.addEventListener('DOMContentLoaded', () => {
     initDarkMode();
@@ -317,9 +261,5 @@
     initTypewriter();
     initContactForm();
     initCounters();
-    initParallaxMouse();
-    init3DTilt();
-    initMagneticButtons();
-    initSkillWave();
   });
 })();

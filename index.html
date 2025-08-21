@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <!-- Styles -->
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=mobile-fix" />
 </head>
 <body>
   <!-- Navigation -->
@@ -33,7 +33,8 @@
       </ul>
 
       <div class="nav-actions">
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <!-- Toggle works for both IDs; script supports either. Using darkModeToggle id here -->
+        <button class="theme-toggle" id="darkModeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
           <i class="fa-solid fa-moon"></i>
         </button>
         <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="nav-menu" aria-expanded="false">
@@ -347,6 +348,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="script.js?v=3" defer></script>
+  <script src="script.js?v=mobile-fix" defer></script>
 </body>
 </html>

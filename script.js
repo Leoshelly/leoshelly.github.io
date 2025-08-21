@@ -1,47 +1,65 @@
 /* ==========================================
-   script.js — Final (Dark Mode + Formspree + No-JS fix)
+   script.js — Final (Mobile Toggle + Dark Mode + Formspree + No-JS)
    ========================================== */
 (function () {
   'use strict';
 
-  // Remove no-JS fallback as soon as script runs
-  document.documentElement.classList.remove('no-js');
+  // Ensure content shows even if JS loads late
+  try { document.documentElement.classList.remove('no-js'); } catch(_) {}
 
   const qs  = (sel, root = document) => root.querySelector(sel);
   const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const debounce = (fn, wait = 100) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); }; };
 
-  /* ---------- Theme (Dark/Light) ---------- */
-  function initTheme() {
-    const btn  = qs('#theme-toggle');
+  /* ---------- Dark Mode ---------- */
+  function initDarkMode(){
     const root = document.documentElement;
+    // Work with either id; auto-inject if missing
+    let toggle = document.querySelector('#darkModeToggle') || document.querySelector('#theme-toggle');
 
-    // saved > system
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark' || saved === 'light') {
-      root.setAttribute('data-theme', saved);
-    } else {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    if (!toggle) {
+      const container = document.querySelector('.nav-actions') || document.querySelector('.nav-container') || document.body;
+      const btnHtml = '<button id="darkModeToggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-moon"></i></button>';
+      container.insertAdjacentHTML('afterbegin', btnHtml);
+      toggle = document.querySelector('#darkModeToggle');
     }
 
-    updateIcon();
+    // Initial theme: saved > system
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch(_) {}
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initial = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
 
-    btn?.addEventListener('click', () => {
-      const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      root.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      updateIcon();
+    applyTheme(initial);
+    updateIcon(initial);
+
+    // Bind for mobile & desktop
+    ['click','touchend'].forEach(evt => {
+      toggle.addEventListener(evt, (e) => {
+        if (evt === 'touchend') e.preventDefault();
+        const next = (root.getAttribute('data-theme') === 'dark' || document.body.classList.contains('dark')) ? 'light' : 'dark';
+        applyTheme(next);
+        updateIcon(next);
+        try { localStorage.setItem('theme', next); } catch(_) {}
+      }, { passive: true });
     });
 
-    function updateIcon() {
-      const isDark = root.getAttribute('data-theme') === 'dark';
-      const icon = qs('#theme-toggle i');
-      if (!icon) return;
-      icon.classList.remove('fa-moon','fa-sun');
-      icon.classList.add(isDark ? 'fa-sun' : 'fa-moon');
-      btn?.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-      btn?.setAttribute('title', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+    function applyTheme(mode){
+      // Support BOTH strategies so your existing CSS works
+      root.setAttribute('data-theme', mode);
+      document.body.classList.toggle('dark', mode === 'dark');
+    }
+
+    function updateIcon(mode){
+      const icon = toggle.querySelector('i');
+      if (icon) {
+        icon.classList.remove('fa-moon','fa-sun');
+        icon.classList.add(mode === 'dark' ? 'fa-sun' : 'fa-moon');
+      } else {
+        toggle.textContent = mode === 'dark' ? '☀️' : '🌙';
+      }
+      toggle.setAttribute('aria-pressed', mode === 'dark' ? 'true' : 'false');
+      toggle.setAttribute('title', mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
   }
 
@@ -52,11 +70,21 @@
     const navbar    = qs('.navbar');
 
     if (hamburger && navMenu) {
-      hamburger.addEventListener('click', () => {
-        const isActive = navMenu.classList.toggle('active');
-        hamburger.classList.toggle('active', isActive);
-        document.body.classList.toggle('menu-open', isActive);
-        hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+      const closeMenu = () => {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.classList.remove('menu-open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      };
+
+      ['click','touchend'].forEach(evt => {
+        hamburger.addEventListener(evt, (e) => {
+          if (evt === 'touchend') e.preventDefault();
+          const isActive = navMenu.classList.toggle('active');
+          hamburger.classList.toggle('active', isActive);
+          document.body.classList.toggle('menu-open', isActive);
+          hamburger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+        }, { passive: true });
       });
 
       qsa('.nav-link', navMenu).forEach(link => link.addEventListener('click', closeMenu));
@@ -65,12 +93,6 @@
         if (e.target.closest('.nav-container')) return;
         closeMenu();
       });
-      function closeMenu(){
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
-        document.body.classList.remove('menu-open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      }
     }
 
     // Smooth scroll
@@ -284,7 +306,7 @@
 
   /* ---------- Init ---------- */
   document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
+    initDarkMode();
     initNavigation();
     initRevealAnimations();
     initTypewriter();

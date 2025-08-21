@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title> Leo Shelly Application & Infrastructure Specialist UAE </title>
-  <meta name="description" content="Leo Shelly Application & Infrastructure Specialist 3+ Years Healthcare IT EMR/ERP, HL7, PACS Integration, UAE & Qatar" />
-  <meta name="keywords" content="Application & Infrastructure Specialist, Healthcare IT, EMR Systems, ERP Implementation, Hospital Information Systems, UAE Healthcare Technology, System Integration" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-  <link rel="stylesheet" href="styles.css?v=2" />
-</head>
+  <title>Leo Shelly — Application & Infrastructure Specialist (UAE)</title>
+  <meta name="description" content="Leo Shelly — Application & Infrastructure Specialist with 3+ years in Healthcare IT across UAE & Qatar. EMR/ERP deployments, HL7/FHIR, PACS, security." />
+  <meta name="keywords" content="Healthcare IT, Application Specialist, Infrastructure Specialist, EMR, ERP, HL7, FHIR, PACS, UAE, Qatar, HIPAA" />
 
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css?v=4" />
+</head>
 <body>
   <!-- Navigation -->
   <nav class="navbar">
@@ -25,12 +28,18 @@
         <li><a href="#about" class="nav-link">About</a></li>
         <li><a href="#experience" class="nav-link">Experience</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
 
-      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="nav-menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-controls="nav-menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -39,12 +48,11 @@
     <div class="hero-container">
       <div class="hero-content">
         <h1 class="hero-title">
-          Healthcare IT Specialist
-          <span class="gradient-text">&amp; System Integration Expert</span>
+          Healthcare IT Specialist <span class="gradient-text">&amp; System Integration Expert</span>
         </h1>
         <p class="hero-description">
           Application Specialist with 3+ years of experience in healthcare IT across UAE &amp; Qatar.
-          Specialized in EMR/ERP system deployment, hospital information systems, and regulatory compliance.
+          Specialized in EMR/ERP deployments, hospital information systems, and regulatory compliance.
         </p>
 
         <div class="hero-stats">
@@ -69,7 +77,7 @@
       </div>
 
       <div class="hero-image">
-        <div class="hero-graphic">
+        <div class="hero-graphic" aria-hidden="true">
           <i class="fas fa-hospital"></i>
         </div>
       </div>
@@ -85,7 +93,7 @@
         <div class="about-text">
           <p class="about-description">
             Results-driven Application Specialist with comprehensive expertise in healthcare IT systems across the UAE and Qatar markets.
-            Proven track record in EMR/ERP system deployment, hospital information systems integration, and ensuring regulatory compliance
+            Proven track record in EMR/ERP system deployment, hospital information systems integration, and ensuring regulatory compliance,
             including HIPAA standards.
           </p>
 
@@ -226,77 +234,59 @@
     </div>
   </section>
 
-    <!-- Education & Certifications -->
-    <section id="education" class="education">
-        <div class="container">
-            <h2 class="section-title">Education & Certifications</h2>
-            <div class="education-grid">
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <h3>BTech in Electrical & Electronics Engineering</h3>
-                    <p>UAE Embassy Attested</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>PG Diploma in Industrial Automation</h3>
-                    <p>Advanced automation and control systems</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3>Be10x on AI tools Workshop Certificate</h3>
-                    <p>Be10x</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <h3>AWS Command Line Interface (CLI)</h3>
-                    <p>AWS Training & Certification</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fab fa-aws"></i>
-                    </div>
-                    <h3>Getting Started with DevOps on AWS</h3>
-                    <p>AWS Training & Certification</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Oracle Cloud Infrastructure 2025 AI Foundations Associate (1Z0-1122-25)</h3>
-                    <p>Oracle University</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Oracle Cloud Infrastructure 2025 Foundations Associate (1Z0-1085-25)</h3>
-                    <p>Oracle University</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fab fa-google"></i>
-                    </div>
-                    <h3>Google Digital Marketing Certification</h3>
-                    <p>Digital Garage Program</p>
-                </div>
-                <div class="education-item">
-                    <div class="education-icon">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
-                    <h3>PBX5 Training Certification</h3>
-                    <p>Telecommunications systems</p>
-                </div>
-            </div>
+  <!-- Education & Certifications -->
+  <section id="education" class="education">
+    <div class="container">
+      <h2 class="section-title">Education & Certifications</h2>
+      <div class="education-grid">
+        <div class="education-item">
+          <div class="education-icon"><i class="fas fa-graduation-cap"></i></div>
+          <h3>BTech in Electrical & Electronics Engineering</h3>
+          <p>UAE Embassy Attested</p>
         </div>
-    </section>
+        <div class="education-item">
+          <div class="education-icon"><i class="fas fa-certificate"></i></div>
+          <h3>PG Diploma in Industrial Automation</h3>
+          <p>Advanced automation and control systems</p>
+        </div>
+        <div class="education-item">
+          <div class="education-icon"><i class="fas fa-brain"></i></div>
+          <h3>Be10x on AI tools Workshop Certificate</h3>
+          <p>Be10x</p>
+        </div>
+        <div class="education-item">
+          <div class="education-icon"><i class="fab fa-aws"></i></div>
+          <h3>AWS Command Line Interface (CLI)</h3>
+          <p>AWS Training & Certification</p>
+        </div>
+        <div class="education-item">
+          <div class="education-icon"><i class="fab fa-aws"></i></div>
+          <h3>Getting Started with DevOps on AWS</h3>
+          <p>AWS Training & Certification</p>
+        </div>
+        <div class="education-item">
+          <div class="education-icon"><i class="fas fa-database"></i></div>
+          <h3>Oracle Cloud Infrastructure 2025 AI Foundations Associate (1Z0-1122-25)</h3>
+          <p>Oracle University</p>
+        </div>
+        <div class="education-item">
+          <div class="education-icon"><i class="fas fa-database"></i></div>
+          <h3>Oracle Cloud Infrastructure 2025 Foundations Associate (1Z0-1085-25)</h3>
+          <p>Oracle University</p>
+        </div>
+        <div class="education-item">
+          <div class="education-icon"><i class="fab fa-google"></i></div>
+          <h3>Google Digital Marketing Certification</h3>
+          <p>Digital Garage Program</p>
+        </div>
+        <div class="education-item">
+          <div class="education-icon"><i class="fas fa-phone-alt"></i></div>
+          <h3>PBX5 Training Certification</h3>
+          <p>Telecommunications systems</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Contact -->
   <section id="contact" class="contact">
@@ -325,11 +315,15 @@
         </div>
 
         <div class="contact-form">
-          <form id="contactForm">
+          <!-- Formspree integration -->
+          <form id="contactForm" action="https://formspree.io/f/xeozbvjv" method="POST" novalidate>
+            <input type="hidden" name="_subject" value="New message from portfolio site" />
             <div class="form-group"><input type="text" id="name" name="name" placeholder="Your Name" required /></div>
             <div class="form-group"><input type="email" id="email" name="email" placeholder="Your Email" required /></div>
             <div class="form-group"><input type="text" id="subject" name="subject" placeholder="Subject" required /></div>
             <div class="form-group"><textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea></div>
+            <!-- Honeypot -->
+            <input type="text" name="_gotcha" style="display:none" aria-hidden="true" />
             <button type="submit" class="btn btn-primary">Send Message</button>
           </form>
         </div>
@@ -352,57 +346,7 @@
     </div>
   </footer>
 
-  <!-- Minimal JS: mobile menu + enforce stat numbers -->
-  <script>
-    (function () {
-      // Mobile menu toggle
-      var burger = document.getElementById('hamburger');
-      var menu = document.getElementById('nav-menu');
-      if (burger && menu) {
-        burger.addEventListener('click', function () {
-          var open = menu.classList.toggle('open');
-          document.body.classList.toggle('menu-open', open);
-          burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-        });
-        // Close on link click
-        menu.querySelectorAll('a').forEach(function (a) {
-          a.addEventListener('click', function () {
-            menu.classList.remove('open');
-            document.body.classList.remove('menu-open');
-            burger.setAttribute('aria-expanded', 'false');
-          });
-        });
-        // Close if clicking outside
-        document.addEventListener('click', function (e) {
-          if (!menu.classList.contains('open')) return;
-          if (e.target.closest('.nav-container')) return;
-          menu.classList.remove('open');
-          document.body.classList.remove('menu-open');
-          burger.setAttribute('aria-expanded', 'false');
-        });
-      }
-
-      // Enforce stats (prevents mobile/desktop mismatch due to cache or scripts)
-      document.querySelectorAll('.stat-number[data-value]').forEach(function (el) {
-        el.textContent = el.getAttribute('data-value');
-      });
-
-      // IntersectionObserver to reveal timeline items smoothly
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var items = document.querySelectorAll('.experience .timeline-item');
-        if (items.length) {
-          var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                io.unobserve(entry.target);
-              }
-            });
-          }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
-          items.forEach(function (el) { io.observe(el); });
-        }
-      }
-    })();
-  </script>
+  <!-- Scripts -->
+  <script src="script.js?v=2"></script>
 </body>
 </html>

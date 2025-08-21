@@ -1,5 +1,5 @@
 /* ==========================================
-   script.js — Final (Mobile Toggle + Dark Mode + Formspree + No-JS)
+   script.js — Mobile Toggle + Dark Mode + Formspree + No-JS
    ========================================== */
 (function () {
   'use strict';
@@ -300,8 +300,13 @@
 
   function initSkillWave(){
     qsa('.skill-item').forEach((item, idx) => {
-      item.addEventListener('mouseenter', () => { item.style.animation = `skillWave .6s ease ${idx * 50}ms`; });
-      item.addEventListener('animationend', () => item.style.animation = ''; });
+      item.addEventListener('mouseenter', () => {
+        item.style.animation = `skillWave .6s ease ${idx * 50}ms`;
+      });
+      item.addEventListener('animationend', () => {
+        item.style.animation = '';
+      });
+    });
   }
 
   /* ---------- Init ---------- */

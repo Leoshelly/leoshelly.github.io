@@ -5,7 +5,16 @@
   'use strict';
 
   // Ensure content shows even if JS loads late
-  try { document.documentElement.classList.remove('no-js'); } catch(_) {}
+  try {
+        // --- Inject dynamic subject + reply-to for Formspree ---
+        const nameVal = form.querySelector('[name="name"]')?.value?.trim() || 'Visitor';
+        const userSub = form.querySelector('[name="subject"]')?.value?.trim() || '';
+        const hiddenSub = form.querySelector('input[name="_subject"]');
+        if (hiddenSub) hiddenSub.value = userSub ? `New message from ${nameVal}: ${userSub}` : `New message from ${nameVal}`;
+        const emailVal = form.querySelector('[name="email"]')?.value?.trim();
+        const replyto = form.querySelector('input[name="_replyto"]');
+        if (replyto && emailVal) replyto.value = emailVal;
+     document.documentElement.classList.remove('no-js'); } catch(_) {}
 
   const qs  = (sel, root = document) => root.querySelector(sel);
   const qsa = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -26,7 +35,16 @@
 
     // Initial theme: saved > system
     let saved = null;
-    try { saved = localStorage.getItem('theme'); } catch(_) {}
+    try {
+        // --- Inject dynamic subject + reply-to for Formspree ---
+        const nameVal = form.querySelector('[name="name"]')?.value?.trim() || 'Visitor';
+        const userSub = form.querySelector('[name="subject"]')?.value?.trim() || '';
+        const hiddenSub = form.querySelector('input[name="_subject"]');
+        if (hiddenSub) hiddenSub.value = userSub ? `New message from ${nameVal}: ${userSub}` : `New message from ${nameVal}`;
+        const emailVal = form.querySelector('[name="email"]')?.value?.trim();
+        const replyto = form.querySelector('input[name="_replyto"]');
+        if (replyto && emailVal) replyto.value = emailVal;
+     saved = localStorage.getItem('theme'); } catch(_) {}
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initial = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
 
@@ -38,7 +56,16 @@
       const next = (root.getAttribute('data-theme') === 'dark' || document.body.classList.contains('dark')) ? 'light' : 'dark';
       applyTheme(next);
       updateIcon(next);
-      try { localStorage.setItem('theme', next); } catch(_) {}
+      try {
+        // --- Inject dynamic subject + reply-to for Formspree ---
+        const nameVal = form.querySelector('[name="name"]')?.value?.trim() || 'Visitor';
+        const userSub = form.querySelector('[name="subject"]')?.value?.trim() || '';
+        const hiddenSub = form.querySelector('input[name="_subject"]');
+        if (hiddenSub) hiddenSub.value = userSub ? `New message from ${nameVal}: ${userSub}` : `New message from ${nameVal}`;
+        const emailVal = form.querySelector('[name="email"]')?.value?.trim();
+        const replyto = form.querySelector('input[name="_replyto"]');
+        if (replyto && emailVal) replyto.value = emailVal;
+     localStorage.setItem('theme', next); } catch(_) {}
     });
 
     function applyTheme(mode){
@@ -149,7 +176,7 @@
   }
 
   /* ---------- Typing effect ---------- */
-  function initTypewriter() {
+  function initTypewriter()() {
     const el = qs('.hero-title');
     if (!el) return;
     const originalHTML = el.innerHTML;
@@ -165,36 +192,105 @@
     setTimeout(type, 600);
   }
 
-  /* ---------- Contact form (Formspree) ---------- */
+  /* ---------- Contact form (Formspree) — robust handling ---------- */
   function initContactForm() {
     const form = qs('#contactForm');
     if (!form) return;
-    form.addEventListener('submit', async (e) => {
+
+    const submitHandler = async (e) => {
       e.preventDefault();
       const btn = form.querySelector('button[type="submit"]');
-      const txt = btn.textContent; btn.textContent = 'Sending…'; btn.disabled = true;
+      const txt = btn ? btn.textContent : null;
+      if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+
+      const data = new FormData(form);
+      const action = form.getAttribute('action') || 'https://formspree.io/f/xeozbvjv';
 
       try {
-        const data = new FormData(form);
-        const resp = await fetch(form.getAttribute('action') || 'https://formspree.io/f/xeozbvjv', {
+        // --- Inject dynamic subject + reply-to for Formspree ---
+        const nameVal = form.querySelector('[name="name"]')?.value?.trim() || 'Visitor';
+        const userSub = form.querySelector('[name="subject"]')?.value?.trim() || '';
+        const hiddenSub = form.querySelector('input[name="_subject"]');
+        if (hiddenSub) hiddenSub.value = userSub ? `New message from ${nameVal}: ${userSub}` : `New message from ${nameVal}`;
+        const emailVal = form.querySelector('[name="email"]')?.value?.trim();
+        const replyto = form.querySelector('input[name="_replyto"]');
+        if (replyto && emailVal) replyto.value = emailVal;
+    
+        const resp = await fetch(action, {
           method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: data
+          headers: { 'Accept': 'application/json' }, // ask for JSON (avoids HTML redirect)
+          body: data,
+          mode: 'cors',
+          redirect: 'follow'
         });
-        if (resp.ok) {
+
+        const ct = resp.headers.get('content-type') || '';
+        let payload = null;
+        if (ct.includes('application/json')) {
+          try {
+        // --- Inject dynamic subject + reply-to for Formspree ---
+        const nameVal = form.querySelector('[name="name"]')?.value?.trim() || 'Visitor';
+        const userSub = form.querySelector('[name="subject"]')?.value?.trim() || '';
+        const hiddenSub = form.querySelector('input[name="_subject"]');
+        if (hiddenSub) hiddenSub.value = userSub ? `New message from ${nameVal}: ${userSub}` : `New message from ${nameVal}`;
+        const emailVal = form.querySelector('[name="email"]')?.value?.trim();
+        const replyto = form.querySelector('input[name="_replyto"]');
+        if (replyto && emailVal) replyto.value = emailVal;
+     payload = await resp.json(); } catch (_) {}
+        } else if (ct.startsWith('text/')) {
+          try {
+        // --- Inject dynamic subject + reply-to for Formspree ---
+        const nameVal = form.querySelector('[name="name"]')?.value?.trim() || 'Visitor';
+        const userSub = form.querySelector('[name="subject"]')?.value?.trim() || '';
+        const hiddenSub = form.querySelector('input[name="_subject"]');
+        if (hiddenSub) hiddenSub.value = userSub ? `New message from ${nameVal}: ${userSub}` : `New message from ${nameVal}`;
+        const emailVal = form.querySelector('[name="email"]')?.value?.trim();
+        const replyto = form.querySelector('input[name="_replyto"]');
+        if (replyto && emailVal) replyto.value = emailVal;
+     payload = await resp.text(); } catch (_) {}
+        }
+
+        const looksSuccessful =
+          resp.ok ||
+          resp.type === 'opaqueredirect' ||
+          (typeof payload === 'string' && /ok|success|thank/i.test(payload)) ||
+          (payload && (payload.ok || payload.success === true));
+
+        if (looksSuccessful) {
           showNotification("Message sent successfully! I'll get back to you soon.", 'success');
           form.reset();
         } else {
-          const err = await resp.json().catch(()=>({}));
-          const msg = err?.errors?.[0]?.message || 'There was a problem sending your message. Please try again.';
-          showNotification(msg, 'error');
+          const reason =
+            (payload && (payload.error || payload.message)) ||
+            `HTTP ${resp.status}`;
+          throw new Error(reason);
         }
       } catch (error) {
-        showNotification('Network error. Please check your connection and try again.', 'error');
+        console.warn('AJAX submit failed, falling back to native submit:', error);
+        try {
+        // --- Inject dynamic subject + reply-to for Formspree ---
+        const nameVal = form.querySelector('[name="name"]')?.value?.trim() || 'Visitor';
+        const userSub = form.querySelector('[name="subject"]')?.value?.trim() || '';
+        const hiddenSub = form.querySelector('input[name="_subject"]');
+        if (hiddenSub) hiddenSub.value = userSub ? `New message from ${nameVal}: ${userSub}` : `New message from ${nameVal}`;
+        const emailVal = form.querySelector('[name="email"]')?.value?.trim();
+        const replyto = form.querySelector('input[name="_replyto"]');
+        if (replyto && emailVal) replyto.value = emailVal;
+    
+          form.removeEventListener('submit', submitHandler);
+          form.submit(); // redirect to provider thank-you page
+          return;
+        } catch {
+          showNotification('Network error. Please check your connection and try again.', 'error');
+        }
       } finally {
-        btn.textContent = txt; btn.disabled = false;
+        if (btn) { btn.textContent = txt || 'Send Message'; btn.disabled = false; }
+        // Re-attach handler after a tick (in case we removed it)
+        setTimeout(() => form.addEventListener('submit', submitHandler), 0);
       }
-    });
+    };
+
+    form.addEventListener('submit', submitHandler);
   }
 
   /* ---------- Toast notifications ---------- */

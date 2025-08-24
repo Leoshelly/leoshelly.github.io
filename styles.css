@@ -268,4 +268,17 @@ body.dark .timeline-item,
 body.dark .skill-category,
 body.dark .education-item {
   background:#0f172a; border-color:#1f2937;
+/* === Desktop-only hero widen + full-height (no other changes) === */
+@media (min-width: 1024px) {
+  .hero {
+    min-height: calc(100vh - 64px); /* adjust if your nav height differs */
+    padding-top: clamp(2rem, 4vw, 4rem);
+    padding-bottom: clamp(2rem, 4vw, 4rem);
+  }
+
+  .hero-container {
+    width: min(1400px, 95vw); /* wider hero only */
+  }
+}
+
 }

@@ -1,1 +1,95 @@
-<!DOCTYPE html><html><head><title>Leo Shelly</title></head><body><h1>Hero Section</h1></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leo Shelly — Healthcare IT Specialist</title>
+  <meta name="description" content="Healthcare IT Specialist & System Integration Expert" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav class="nav">
+      <a href="#home" class="brand">Leo Shelly</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <h1>Healthcare IT Specialist &<br /> System Integration Expert</h1>
+        <p>I design, deploy, and integrate clinical systems that are reliable,
+        secure, and user-friendly. From EMR rollouts to device integration and
+        interoperability, I help hospitals ship mission-critical technology.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#contact">Work with me</a>
+          <a class="btn btn-ghost" href="#services">View services</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><span class="num">10+</span><span class="label">Years exp.</span></div>
+          <div class="stat"><span class="num">25+</span><span class="label">Projects</span></div>
+          <div class="stat"><span class="num">7</span><span class="label">Hospitals</span></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=1200&auto=format&fit=crop"
+             alt="Healthcare technology" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="container">
+      <h2>About</h2>
+      <p>I specialize in system integrations, HL7/FHIR interfaces, device connectivity,
+        workflow design, and reliability engineering across healthcare environments.</p>
+    </div>
+  </section>
+
+  <section id="services" class="section alt">
+    <div class="container">
+      <h2>Services</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>EMR Rollouts</h3>
+          <p>Planning, cutover, training, hypercare, and ongoing optimization.</p>
+        </article>
+        <article class="card">
+          <h3>Integration</h3>
+          <p>HL7/FHIR interfaces, device integration, secure data exchange.</p>
+        </article>
+        <article class="card">
+          <h3>Reliability</h3>
+          <p>Monitoring, SLOs, incident response, and root-cause analysis.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="container">
+      <h2>Contact</h2>
+      <p>Email: <a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">linkedin.com/in/yourprofile</a></p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> Leo Shelly. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
